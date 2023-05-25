@@ -2,35 +2,26 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Train;
+use Faker\Factory as Faker;
 
-class TrainSeeder extends Seeder
+class TrainsSeeder extends Seeder
 {
     public function run()
     {
-        Train::create([
-            'azienda' => 'ACME Trains',
-            'stazione_partenza' => 'Milano Centrale',
-            'stazione_arrivo' => 'Roma Termini',
-            'orario_partenza' => '08:00:00',
-            'orario_arrivo' => '12:00:00',
-            'codice_treno' => 'T123',
-            'numero_carrozze' => 5,
-            'in_orario' => true,
-            'cancellato' => false,
-        ]);
+        $faker = Faker::create();
 
-        Train::create([
-            'azienda' => 'RailCo',
-            'stazione_partenza' => 'Roma Termini',
-            'stazione_arrivo' => 'Firenze Santa Maria Novella',
-            'orario_partenza' => '13:30:00',
-            'orario_arrivo' => '15:45:00',
-            'codice_treno' => 'T456',
-            'numero_carrozze' => 3,
-            'in_orario' => false,
-            'cancellato' => true,
-        ]);
-
-        
+        for ($i = 0; $i < 10; $i++) {
+            Train::create([
+                'company' => $faker->company,
+                'departure_station' => $faker->city,
+                'arrival_station' => $faker->city,
+                'departure_time' => $faker->time('H:i:s'),
+                'arrival_time' => $faker->time('H:i:s'),
+                'train_code' => $faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
+                'carriages' => $faker->numberBetween(1, 10),
+                'on_time' => $faker->boolean,
+                'cancelled' => $faker->boolean,
+            ]);
+        }
     }
 }
